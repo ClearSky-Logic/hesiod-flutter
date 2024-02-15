@@ -1,0 +1,65 @@
+name: hesiod
+description: "Hesiod Flutter for both Admin and User WebApps"
+publish_to: 'none' 
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.2.6 <4.0.0'
+
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_web_plugins:
+    sdk: flutter
+
+
+ 
+  cupertino_icons: ^1.0.6
+  mobx: ^2.3.0+1
+  flutter_mobx: ^2.2.0+2
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  path_provider: ^2.1.2
+  url_launcher: ^6.2.4
+  event: ^2.1.2
+  http: ^1.2.0
+  flutter_svg: ^2.0.9
+  intl: ^0.19.0
+  sprintf: ^7.0.0
+  flutter_dotenv: ^5.1.0
+  carousel_slider: ^4.2.1
+  screenshot: ^2.1.0
+  expandable: ^5.0.1
+  image_picker: ^1.0.7
+  go_router: ^10.2.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+
+  build_runner:
+  mobx_codegen:
+
+  flutter_lints: ^3.0.1
+
+
+
+flutter:
+
+  
+  uses-material-design: true
+  assets:
+    - assets/
+    # - assets/images/
+    # - assets/icons/
+    - assets/.env.dev
+    - assets/.env.live
+    - assets/.env.uat
+    - assets/.env.qa
+  
+fonts:
+    - family: Milano
+      fonts:
+        - asset: assets/fonts/milano.ttf

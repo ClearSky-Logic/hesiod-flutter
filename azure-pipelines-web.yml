@@ -1,0 +1,99 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- develop
+
+pool:
+  vmImage: ubuntu-latest
+
+stages:
+- stage: WebStage
+  dependsOn: []
+  displayName: Web
+  jobs:
+
+  - job: WebBuildJob
+    displayName: WebBuild
+    steps:
+    - task: DownloadSecureFile@1
+      name: devenv
+      displayName: Download env.dev
+      inputs:
+        secureFile: '.env.dev'
+
+    - task: DownloadSecureFile@1
+      name: qaenv
+      displayName: Download env.qa
+      inputs:
+        secureFile: '.env.qa'
+
+    - task: DownloadSecureFile@1
+      name: liveenv
+      displayName: Download env.live
+      inputs:
+        secureFile: '.env.live'  
+
+    - task: DownloadSecureFile@1
+      name: uatenv
+      displayName: Download env.uat
+      inputs:
+        secureFile: '.env.uat'
+
+    - task: Bash@3
+      displayName: Copy config files
+      inputs:
+        targetType: 'inline'
+        script: |
+          cp $(devenv.secureFilePath) $(Build.SourcesDirectory)/urocked/assets/.env.dev
+          cp $(qaenv.secureFilePath) $(Build.SourcesDirectory)/urocked/assets/.env.qa
+          cp $(liveenv.secureFilePath) $(Build.SourcesDirectory)/urocked/assets/.env.live
+          cp $(uatenv.secureFilePath) $(Build.SourcesDirectory)/urocked/assets/.env.uat
+          
+          echo ".env.dev copied to $(Build.SourcesDirectory)/urocked/assets/.env.dev"
+          echo ".env.qa copied to $(Build.SourcesDirectory)/urocked/assets/.env.qa"
+          echo ".env.live copied to $(Build.SourcesDirectory)/urocked/assets/.env.live"
+          echo ".env.uat copied to $(Build.SourcesDirectory)/urocked/assets/.env.uat"
+
+    - task: FlutterInstall@0
+      displayName: "Install Flutter SDK"
+      inputs:
+        mode: 'auto'
+        channel: 'stable'
+        version: 'custom'
+        customVersion: '3.13.9'
+
+    - task: FlutterBuild@0
+      displayName: "Build application"
+      inputs:
+        target: 'web'
+        buildFlavour: 'dev'
+        projectDirectory: '$(Build.SourcesDirectory)/urocked'
+        entryPoint: "lib/main_dev.dart"
+        extraArgs: '--web-renderer html --no-tree-shake-icons'
+
+    - task: CopyFiles@2
+      displayName: "Copy app to staging directory"
+      inputs:
+        sourceFolder: '$(Agent.BuildDirectory)'
+        contents: 's/urocked/build/web/**'
+        targetFolder: '$(Build.StagingDirectory)'
+        flattenFolders: false
+
+    - task: PublishBuildArtifacts@1
+      displayName: "Publish Web Artifacts"
+      inputs:
+        PathtoPublish: '$(Build.StagingDirectory)/s/urocked/build/web'
+        ArtifactName: 'flutter-web'
+        publishLocation: 'Container'
+
+    - task: AzureCLI@2
+      displayName: PublishToBlob
+      inputs:
+        azureSubscription: 'uRocked DEV (b4b9b81f-2c0f-47c1-89b1-c4132f0ec3c9)'
+        scriptType: 'pscore'
+        scriptLocation: 'inlineScript'
+        inlineScript: 'az storage blob upload-batch -d "`$web" --account-name "urockedflutterwebdev" -s "$(Build.StagingDirectory)/s/urocked/build/web"  --overwrite true'
+  
