@@ -4,7 +4,7 @@ publish_to: 'none'
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.2.6 <4.0.0'
+  sdk: '>=3.2.4 <4.0.0'
 
 
 dependencies:
@@ -57,7 +57,7 @@ flutter:
     - assets/.env.dev
     - assets/.env.live
     - assets/.env.uat
-    - assets/.env.qa
+    # - assets/.env.qa
   
 fonts:
     - family: Milano
