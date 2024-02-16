@@ -28,33 +28,39 @@ class HomePage extends StatelessWidget {
         child: Observer(
             builder: (_) => viewModel.isLoading
                 ? const Center(child: CustomProgressIndicator())
-                : LayoutBuilder(builder:
-                    (BuildContext context, BoxConstraints constraints) {
-                    bool isPhone = DeviceType().isPhone(constraints);
-                    return Padding(
-                      padding: EdgeInsets.only(
-                          left: 16.0,
-                          right: 16.0,
-                          top: !isPhone
-                              ? kIsWeb
-                                  ? 100.0
-                                  : 80.0
-                              : 0.0),
-                      child: Column(mainAxisSize: MainAxisSize.max, children: [
-                        _welcomeMessage(context, constraints),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: _welcomeMessage(context, constraints),
-                        ),
-                        // _navigation(context, constraints),
-                      ]),
-                    );
-                  })));
+                : Padding(
+                    padding: const EdgeInsets.only(
+                        left: 16.0, right: 16.0, top: 80.0),
+                    child: Column(mainAxisSize: MainAxisSize.max, children: [
+                      _welcomeMessage(context),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 20.0),
+                        child: AppText.title("THIS IS RIGHT BODY"),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: _welcomeMessage(context),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: _welcomeMessage(context),
+                      ),
+
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: _welcomeMessage(context),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: _welcomeMessage(context),
+                      ),
+                      // _navigation(context, constraints),
+                    ]),
+                  )));
   }
 
-  Widget _welcomeMessage(BuildContext context, BoxConstraints constraints) {
+  Widget _welcomeMessage(BuildContext context) {
     return Container(
-        width: DeviceType().getClampedWidth(constraints),
         decoration: const BoxDecoration(
           color: Colors.white,
           // color: AppColours.primary,
