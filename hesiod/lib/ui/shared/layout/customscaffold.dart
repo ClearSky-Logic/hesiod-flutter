@@ -6,6 +6,7 @@ import 'package:hesiod/domain/constants/assetsconstants.dart';
 import 'package:hesiod/domain/constants/routes.dart';
 import 'package:hesiod/domain/enums/theme/text_state.dart';
 import 'package:hesiod/helpers/devicetype.dart';
+import 'package:hesiod/ui/shared/layout/topnavigation.dart';
 import 'package:hesiod/ui/shared/theme/colour_palette.dart';
 import 'package:hesiod/ui/shared/theme/text.dart';
 
@@ -28,11 +29,6 @@ class CustomScaffold extends StatelessWidget {
         builder: (BuildContext context, BoxConstraints constraints) {
       final bool isPhone = DeviceType().isPhone(constraints);
       return Scaffold(
-        drawer: isPhone
-            ? Drawer(
-                width: constraints.maxWidth,
-                child: _navigation(context, constraints))
-            : null,
         backgroundColor: AppColours.surface,
         appBar: AppBar(
           backgroundColor: AppColours.darkTribeBlue,
@@ -53,16 +49,43 @@ class CustomScaffold extends StatelessWidget {
           //pass right body and under body, see exalidraw
           child: SingleChildScrollView(
             child: isPhone
-                ? Column(
-                    children: [
-                      body,
-                      _welcomeMessage(context, constraints),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 200.0),
-                        child: AppText.title("THIS IS BOTTOM BODY"),
-                      ),
-                      _welcomeMessage(context, constraints),
-                    ],
+                ? Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 32.0),
+                          child: Container(
+                              height: 60,
+                              // padding: const EdgeInsets.all(14.0),
+                              decoration: const BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(14.0))),
+                              child: const Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 12.0),
+                                    child: FlutterLogo(),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(right: 12.0),
+                                    child: TopNavigation(),
+                                  ),
+                                ],
+                              )),
+                        ),
+                        body,
+                        _welcomeMessage(context, constraints),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 200.0),
+                          child: AppText.title("THIS IS BOTTOM BODY"),
+                        ),
+                        _welcomeMessage(context, constraints),
+                      ],
+                    ),
                   )
                 : LayoutGrid(
                     areas: '''
