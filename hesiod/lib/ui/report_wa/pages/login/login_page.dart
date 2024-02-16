@@ -31,7 +31,7 @@ class LoginPage extends StatelessWidget {
         viewModel: viewModel,
         child: LayoutBuilder(builder: (context, BoxConstraints constraints) {
           return Scaffold(
-              backgroundColor: AppColours.primary,
+              backgroundColor: AppColours.surface,
               body: Observer(
                   builder: (context) => viewModel.isLoading
                       ? const CustomProgressIndicator()
@@ -43,7 +43,7 @@ class LoginPage extends StatelessWidget {
         }));
   }
 
-  Widget _credentialsForm(context, BoxConstraints constraints) {
+  Widget _credentialsForm(BuildContext context, BoxConstraints constraints) {
     return ResponsivePadding(
       top: 20.0,
       bottom: 20.0,
@@ -95,11 +95,12 @@ class LoginPage extends StatelessWidget {
                     child: RoundFlatButton(
                         text: 'Log In',
                         onPressed: () {
-                          if (loginFormKey.currentState!.validate()) {
-                            TextInput.finishAutofillContext();
-                            viewModel.isLoading = true;
-                            //viewModel.login(context);
-                          }
+                          // if (loginFormKey.currentState!.validate()) {
+                          // TextInput.finishAutofillContext();
+                          // viewModel.isLoading = true;
+                          context.goNamed(Routes.home.name);
+                          // viewModel.login(context);
+                          // }
                         })),
               ],
             )),

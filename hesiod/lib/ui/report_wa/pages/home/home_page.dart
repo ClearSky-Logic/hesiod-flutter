@@ -42,6 +42,11 @@ class HomePage extends StatelessWidget {
                               : 0.0),
                       child: Column(mainAxisSize: MainAxisSize.max, children: [
                         _welcomeMessage(context, constraints),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: _welcomeMessage(context, constraints),
+                        ),
+                        // _navigation(context, constraints),
                       ]),
                     );
                   })));
@@ -51,7 +56,8 @@ class HomePage extends StatelessWidget {
     return Container(
         width: DeviceType().getClampedWidth(constraints),
         decoration: const BoxDecoration(
-          color: AppColours.primary,
+          color: Colors.white,
+          // color: AppColours.primary,
           borderRadius: BorderRadius.all(
             Radius.circular(12.0),
           ),
@@ -67,13 +73,13 @@ class HomePage extends StatelessWidget {
                   children: [
                     Flexible(
                         child: AppText.profileName(
-                            DateTime.now().hour < 12
-                                ? "Good Morning, "
-                                : DateTime.now().hour < 18
-                                    ? "Good Afternoon, "
-                                    : "Good Evening, ",
-                            textAlign: TextAlign.center,
-                            state: TextState.onDarkBackground)),
+                      DateTime.now().hour < 12
+                          ? "Good Morning, "
+                          : DateTime.now().hour < 18
+                              ? "Good Afternoon, "
+                              : "Good Evening, ",
+                      textAlign: TextAlign.center,
+                    )),
                   ]),
             ),
             Padding(
@@ -85,10 +91,9 @@ class HomePage extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Container(
-                        decoration: BoxDecoration(
-                          border:
-                              Border.all(color: AppColours.surface, width: 2),
-                          borderRadius: const BorderRadius.all(
+                        decoration: const BoxDecoration(
+                          color: AppColours.comeAroundSundown,
+                          borderRadius: BorderRadius.all(
                             Radius.circular(12.0),
                           ),
                         ),
@@ -98,7 +103,7 @@ class HomePage extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               const Icon(Icons.payments_outlined,
-                                  color: AppColours.secondary, size: 20.0),
+                                  color: Colors.white, size: 20.0),
                               AppText.message('Tips received',
                                   state: TextState.onDarkBackground),
                             ]),
@@ -109,10 +114,9 @@ class HomePage extends StatelessWidget {
                     ),
                     Expanded(
                       child: Container(
-                        decoration: BoxDecoration(
-                          border:
-                              Border.all(color: AppColours.surface, width: 2),
-                          borderRadius: const BorderRadius.all(
+                        decoration: const BoxDecoration(
+                          color: AppColours.comeAroundSundown,
+                          borderRadius: BorderRadius.all(
                             Radius.circular(12.0),
                           ),
                         ),
@@ -122,7 +126,7 @@ class HomePage extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               const Icon(Icons.volunteer_activism_outlined,
-                                  color: AppColours.secondary, size: 20.0),
+                                  color: Colors.white, size: 20.0),
                               AppText.messageMultiline('Donations',
                                   textAlign: TextAlign.center,
                                   state: TextState.onDarkBackground),

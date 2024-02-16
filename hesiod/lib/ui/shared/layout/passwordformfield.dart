@@ -16,7 +16,7 @@ class PasswordFormField extends StatefulWidget {
   final Iterable<String>? autofillHints;
 
   const PasswordFormField(
-      {Key? key,
+      {super.key,
       this.header = '',
       this.hint = '',
       this.validator,
@@ -24,10 +24,9 @@ class PasswordFormField extends StatefulWidget {
       this.keyName = '',
       this.keyboardType = TextInputType.text,
       this.padding = const EdgeInsets.all(8.0),
-      this.backgroundColor = AppColours.background,
+      this.backgroundColor = AppColours.lightGrey,
       this.isFieldMandatory = false,
-      this.autofillHints})
-      : super(key: key);
+      this.autofillHints});
 
   @override
   State<PasswordFormField> createState() => _PasswordFormFieldState();
