@@ -29,7 +29,7 @@ class CustomFormField extends StatelessWidget {
   final String? initialCountrySelection;
 
   const CustomFormField({
-    Key? key,
+    super.key,
     this.header = '',
     this.hint = '',
     this.validator,
@@ -38,7 +38,7 @@ class CustomFormField extends StatelessWidget {
     this.keyboardType = TextInputType.text,
     this.isPassword = false,
     this.padding = const EdgeInsets.all(12.0),
-    this.backgroundColor = AppColours.surface,
+    this.backgroundColor = AppColours.lightGrey,
     this.focusBorder = InputBorder.none,
     this.onTap,
     this.isReadOnly = false,
@@ -52,7 +52,7 @@ class CustomFormField extends StatelessWidget {
     this.autofillHints,
     this.isMobileNumberField = false,
     this.initialCountrySelection = "GB",
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

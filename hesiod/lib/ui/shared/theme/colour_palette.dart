@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 
 class AppColours {
+  //brand colours
+  static const Color darkTribeBlue = Color(0xff042c36);
+  static const Color lightGrey = Color(0xffe5e7f0);
+  static const Color comeAroundSundown = Color(0xffcc6339);
+
   // Colours
   static const Color primary = Color(0xff1D3158);
   static const Color primaryVariant = Color(0xff3B5D92);

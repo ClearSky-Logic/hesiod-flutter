@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hesiod/domain/constants/hiveboxconstants.dart';
@@ -6,7 +5,6 @@ import 'package:hesiod/domain/models/utility/environment.dart';
 import 'package:hesiod/infrastructure/app_router.dart';
 import 'package:hesiod/infrastructure/servicelocator.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:path_provider/path_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

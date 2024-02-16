@@ -27,6 +27,7 @@ class ServiceLocator implements Startable {
     viewModelFactory = ViewModelFactory(this);
     hiveService = HiveService();
     eventService = EventService();
+    authManager = AuthManager(hiveService!, apiService!);
 
     userService = UserService(apiService!);
   }
