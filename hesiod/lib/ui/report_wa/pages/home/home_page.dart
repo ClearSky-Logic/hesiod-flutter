@@ -28,35 +28,31 @@ class HomePage extends StatelessWidget {
         child: Observer(
             builder: (_) => viewModel.isLoading
                 ? const Center(child: CustomProgressIndicator())
-                : Padding(
-                    padding: const EdgeInsets.only(
-                        left: 16.0, right: 16.0, top: 80.0),
-                    child: Column(mainAxisSize: MainAxisSize.max, children: [
-                      _welcomeMessage(context),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 20.0),
-                        child: AppText.title("THIS IS RIGHT BODY"),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: _welcomeMessage(context),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: _welcomeMessage(context),
-                      ),
+                : Column(mainAxisSize: MainAxisSize.max, children: [
+                    _welcomeMessage(context),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 20.0),
+                      child: AppText.title("THIS IS RIGHT BODY"),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: _welcomeMessage(context),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: _welcomeMessage(context),
+                    ),
 
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: _welcomeMessage(context),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: _welcomeMessage(context),
-                      ),
-                      // _navigation(context, constraints),
-                    ]),
-                  )));
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: _welcomeMessage(context),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: _welcomeMessage(context),
+                    ),
+                    // _navigation(context, constraints),
+                  ])));
   }
 
   Widget _welcomeMessage(BuildContext context) {
