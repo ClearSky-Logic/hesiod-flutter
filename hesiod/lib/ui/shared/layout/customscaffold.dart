@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hesiod/domain/constants/assetsconstants.dart';
@@ -28,17 +28,13 @@ class CustomScaffold extends StatelessWidget {
         builder: (BuildContext context, BoxConstraints constraints) {
       final bool isPhone = DeviceType().isPhone(constraints);
       return Scaffold(
+        drawer: isPhone
+            ? Drawer(
+                width: constraints.maxWidth,
+                child: _navigation(context, constraints))
+            : null,
         backgroundColor: AppColours.surface,
         appBar: AppBar(
-          leading: !isPhone
-              ? null
-              : IconButton(
-                  icon: Icon(
-                    Icons.adaptive.arrow_back,
-                    color: AppColours.surfaceVariant,
-                  ),
-                  onPressed: () => context.pop(),
-                ),
           backgroundColor: AppColours.darkTribeBlue,
           elevation: 0.0,
           title: AppText.title(title),
@@ -55,45 +51,105 @@ class CustomScaffold extends StatelessWidget {
                   stops: [0.2, 0.2])),
 
           //pass right body and under body, see exalidraw
-          child: body,
+          child: SingleChildScrollView(
+            child: isPhone
+                ? Column(
+                    children: [
+                      body,
+                      _welcomeMessage(context, constraints),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 200.0),
+                        child: AppText.title("THIS IS BOTTOM BODY"),
+                      ),
+                      _welcomeMessage(context, constraints),
+                    ],
+                  )
+                : LayoutGrid(
+                    areas: '''
+                nav rightbody
+                bottombody bottombody
+                ''',
+                    columnSizes: [auto, 12.fr],
+                    rowSizes: [auto, auto],
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                        child: _navigation(context, constraints),
+                      ).inGridArea('nav'),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                        child: Container(
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Colors.red, width: 2)),
+                          child: body,
+                          // child: AppText.title("RIGHT BODY"),
+                        ),
+                      ).inGridArea('rightbody'),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20.0, vertical: 20.0),
+                        child: Column(
+                          children: [
+                            _welcomeMessage(context, constraints),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 200.0),
+                              child: AppText.title("THIS IS BOTTOM BODY"),
+                            ),
+                            _welcomeMessage(context, constraints),
+                          ],
+                        ),
+                      ).inGridArea('bottombody'),
+                      // Flexible(child: body)
+                    ],
+                  ),
+          ),
         ),
       );
     });
   }
 
   Widget _navigation(BuildContext context, BoxConstraints constraints) {
-    return Container(
-        width: DeviceType().getClampedWidth(constraints) / 5.5,
-        height: 500,
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          // color: AppColours.primary,
-          borderRadius: BorderRadius.all(
-            Radius.circular(12.0),
-          ),
-        ),
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const FlutterLogo(),
-                  AppText.title("Brand Logo"),
-                ],
+    final bool isPhone = DeviceType().isPhone(constraints);
+    return isPhone
+        ? AppBar(
+            leading: GestureDetector(
+              child: Icon(Icons.arrow_back_ios_new_rounded),
+              onTap: () => context.pop(),
+            ),
+          )
+        : Container(
+            height: 500,
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              // color: AppColours.primary,
+              borderRadius: BorderRadius.all(
+                Radius.circular(12.0),
               ),
             ),
-            navLink(Icons.bar_chart_rounded, "Investment Performance",
-                selected: true),
-            navLink(Icons.signpost_rounded, "Letting Dashboard"),
-            navLink(Icons.message, "Messages"),
-            navLink(Icons.shopping_bag, "Asset Management Request"),
-            navLink(Icons.account_circle_rounded, "Investor Profile"),
-            navLink(Icons.logout_rounded, "Logout"),
-          ],
-        ));
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const FlutterLogo(),
+                      AppText.title("Brand Logo"),
+                    ],
+                  ),
+                ),
+                navLink(Icons.bar_chart_rounded, "Investment Performance",
+                    selected: true),
+                navLink(Icons.signpost_rounded, "Letting Dashboard"),
+                navLink(Icons.message, "Messages"),
+                navLink(Icons.shopping_bag, "Asset Management Request"),
+                navLink(Icons.account_circle_rounded, "Investor Profile"),
+                navLink(Icons.logout_rounded, "Logout"),
+              ],
+            ));
   }
 
   Widget navLink(IconData icon, String title, {bool selected = false}) {
@@ -119,5 +175,93 @@ class CustomScaffold extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  //TODO - REMOVE THIS
+  Widget _welcomeMessage(BuildContext context, BoxConstraints constraints) {
+    return Container(
+        // width: DeviceType().getClampedWidth(constraints),
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          // color: AppColours.primary,
+          borderRadius: BorderRadius.all(
+            Radius.circular(12.0),
+          ),
+        ),
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 12.0, bottom: 12.0),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Flexible(
+                        child: AppText.profileName(
+                      DateTime.now().hour < 12
+                          ? "Good Morning, "
+                          : DateTime.now().hour < 18
+                              ? "Good Afternoon, "
+                              : "Good Evening, ",
+                      textAlign: TextAlign.center,
+                    )),
+                  ]),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 12.0),
+              child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: Container(
+                        decoration: const BoxDecoration(
+                          color: AppColours.comeAroundSundown,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(12.0),
+                          ),
+                        ),
+                        padding: const EdgeInsets.all(12.0),
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Icon(Icons.payments_outlined,
+                                  color: Colors.white, size: 20.0),
+                              AppText.message('Tips received',
+                                  state: TextState.onDarkBackground),
+                            ]),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 12,
+                    ),
+                    Expanded(
+                      child: Container(
+                        decoration: const BoxDecoration(
+                          color: AppColours.comeAroundSundown,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(12.0),
+                          ),
+                        ),
+                        padding: const EdgeInsets.all(12.0),
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Icon(Icons.volunteer_activism_outlined,
+                                  color: Colors.white, size: 20.0),
+                              AppText.messageMultiline('Donations',
+                                  textAlign: TextAlign.center,
+                                  state: TextState.onDarkBackground),
+                            ]),
+                      ),
+                    )
+                  ]),
+            )
+          ],
+        ));
   }
 }
