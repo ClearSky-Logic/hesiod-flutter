@@ -1,20 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:hesiod/domain/enums/theme/text_state.dart';
+import 'package:hesiod/domain/models/utility/customwidgetlayout.dart';
 import 'package:hesiod/helpers/devicetype.dart';
+import 'package:hesiod/ui/report_wa/pages/home/home_page.dart';
+import 'package:hesiod/ui/shared/charts/linechart.dart';
 import 'package:hesiod/ui/shared/layout/topnavigation.dart';
 import 'package:hesiod/ui/shared/theme/colour_palette.dart';
 import 'package:hesiod/ui/shared/theme/text.dart';
 
 class CustomScaffold extends StatelessWidget {
   final String title;
-  final Widget body;
+  final Widget? body;
+  // final List<Widget> rightBody;
+  final List<List<Widget>> rightBody;
+  final Widget? bottomBody;
   final FloatingActionButton? floatingActionButton;
   final bool isStepper;
 
   const CustomScaffold(
       {super.key,
-      required this.body,
+      this.body,
+      required this.rightBody,
+      this.bottomBody,
       this.floatingActionButton,
       this.title = '',
       this.isStepper = false});
@@ -65,15 +73,24 @@ class CustomScaffold extends StatelessWidget {
                                 ],
                               )),
                         ),
-                        body,
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 200.0),
-                          child: AppText.title("THIS IS BOTTOM BODY"),
+                        Column(
+                          children: [
+                            for (var widgetList in rightBody) ...[
+                              for (var widget in widgetList) ...[widget]
+                            ]
+                            // for (var item in rightBody) ...[
+                            //   for (var i in item.widget) ...[i]
+                            // ]
+                          ],
                         ),
+                        if (bottomBody != null) ...[
+                          bottomBody!,
+                        ],
                       ],
                     ),
                   )
                 : LayoutGrid(
+                    //for bigger screen sizes
                     areas: '''
                 nav rightbody
                 bottombody bottombody
@@ -86,26 +103,56 @@ class CustomScaffold extends StatelessWidget {
                         child: _navigation(context, constraints),
                       ).inGridArea('nav'),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                        child: Container(
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Colors.red, width: 2)),
-                          child: body,
-                          // child: AppText.title("RIGHT BODY"),
-                        ),
-                      ).inGridArea('rightbody'),
+                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                          child: Column(
+                            children: [
+                              // rightBody.where((element){ element.isRowOnFullScreen}),
+                              for (var widgetList in rightBody) ...[
+                                if (widgetList.length > 1) ...[
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 8.0),
+                                    child: Row(children: [
+                                      for (var widget in widgetList) ...[
+                                        Expanded(child: widget)
+                                      ]
+                                    ]),
+                                  )
+                                ] else ...[
+                                  for (var widget in widgetList) ...[widget]
+                                ]
+                              ]
+                              // for (var item in rightBody) ...[
+                              //   if (item.isRowOnFullScreen) ...[
+                              //     Padding(
+                              //       padding: const EdgeInsets.symmetric(
+                              //           vertical: 8.0),
+                              //       child: Row(children: [
+                              //         for (var i in item.widget) ...[
+                              //           Expanded(child: i)
+                              //         ]
+                              //       ]),
+                              //     )
+                              //   ] else ...[
+                              //     for (var i in item.widget) ...[i]
+                              //   ],
+                              // ]
+                            ],
+                          )),
+                      // child: Column(children: [
+                      //   _welcomeMessage(context, constraints),
+                      //   const Row(children: [LineChart(), LineChart()]),
+                      //   _welcomeMessage(context, constraints),
+                      // ])),
                       Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 20.0, vertical: 20.0),
                         child: Column(
                           children: [
                             Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 200.0),
-                              child: AppText.title("THIS IS BOTTOM BODY"),
-                            ),
-                            _welcomeMessage(context, constraints),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 200.0),
+                                child: bottomBody),
                           ],
                         ),
                       ).inGridArea('bottombody'),

@@ -1,12 +1,14 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hesiod/domain/enums/theme/text_state.dart';
-import 'package:hesiod/helpers/devicetype.dart';
+import 'package:hesiod/domain/models/utility/customwidgetlayout.dart';
 import 'package:hesiod/helpers/viewmodelroot.dart';
 import 'package:hesiod/ui/shared/actions/progress_indicator.dart';
-import 'package:hesiod/ui/shared/layout/warningerrorwidget.dart';
+import 'package:hesiod/ui/shared/charts/circlechart.dart';
+import 'package:hesiod/ui/shared/charts/linechart.dart';
+import 'package:hesiod/ui/shared/layout/customscaffold.dart';
 import 'package:hesiod/ui/shared/theme/colour_palette.dart';
 import 'package:hesiod/ui/shared/theme/text.dart';
 
@@ -22,37 +24,32 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isPhone = MediaQuery.of(context).size.width < 800;
     // viewModel.getProfileDetails();
     return ViewModelRoot(
         viewModel: viewModel,
         child: Observer(
-            builder: (_) => viewModel.isLoading
-                ? const Center(child: CustomProgressIndicator())
-                : Column(mainAxisSize: MainAxisSize.max, children: [
-                    _welcomeMessage(context),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 20.0),
-                      child: AppText.title("THIS IS RIGHT BODY"),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: _welcomeMessage(context),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: _welcomeMessage(context),
-                    ),
-
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: _welcomeMessage(context),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: _welcomeMessage(context),
-                    ),
-                    // _navigation(context, constraints),
-                  ])));
+          builder: (_) => viewModel.isLoading
+              ? const Center(child: CustomProgressIndicator())
+              : CustomScaffold(
+                  rightBody: [
+                    [_welcomeMessage(context)],
+                    const [
+                      LineChart(),
+                      CircleChart(),
+                    ],
+                    const [LineChart()]
+                    // CustomWidgetLayout([LineChart()], false)
+                    // CustomWidgetLayout([_welcomeMessage(context)], false),
+                    // CustomWidgetLayout([
+                    //   LineChart(),
+                    //   CircleChart(),
+                    // ], true),
+                    // CustomWidgetLayout([LineChart()], false)
+                  ],
+                  bottomBody: _welcomeMessage(context),
+                ),
+        ));
   }
 
   Widget _welcomeMessage(BuildContext context) {
