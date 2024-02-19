@@ -3,8 +3,7 @@ import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:hesiod/domain/enums/theme/text_state.dart';
 import 'package:hesiod/domain/models/utility/customwidgetlayout.dart';
 import 'package:hesiod/helpers/devicetype.dart';
-import 'package:hesiod/ui/report_wa/pages/home/home_page.dart';
-import 'package:hesiod/ui/shared/charts/linechart.dart';
+import 'package:hesiod/ui/shared/layout/footer.dart';
 import 'package:hesiod/ui/shared/layout/topnavigation.dart';
 import 'package:hesiod/ui/shared/theme/colour_palette.dart';
 import 'package:hesiod/ui/shared/theme/text.dart';
@@ -46,7 +45,7 @@ class CustomScaffold extends StatelessWidget {
                     stops: [0.2, 0.2])),
             child: isPhone
                 ? Padding(
-                    padding: const EdgeInsets.all(20.0),
+                    padding: const EdgeInsets.all(00.0),
                     child: Column(
                       children: [
                         Padding(
@@ -83,6 +82,7 @@ class CustomScaffold extends StatelessWidget {
                         if (bottomBody != null) ...[
                           bottomBody!,
                         ],
+                        Footer(constraints)
                       ],
                     ),
                   )
@@ -120,41 +120,30 @@ class CustomScaffold extends StatelessWidget {
                                   ]
                                 ]
                               ]
-                              // for (var item in rightBody) ...[
-                              //   if (item.isRowOnFullScreen) ...[
-                              //     Padding(
-                              //       padding: const EdgeInsets.symmetric(
-                              //           vertical: 8.0),
-                              //       child: Row(children: [
-                              //         for (var i in item.widget) ...[
-                              //           Expanded(child: i)
-                              //         ]
-                              //       ]),
-                              //     )
-                              //   ] else ...[
-                              //     for (var i in item.widget) ...[i]
-                              //   ],
-                              // ]
                             ],
                           )),
-                      // child: Column(children: [
-                      //   _welcomeMessage(context, constraints),
-                      //   const Row(children: [LineChart(), LineChart()]),
-                      //   _welcomeMessage(context, constraints),
-                      // ])),
                       Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 20.0, vertical: 20.0),
+                        padding: const EdgeInsets.only(
+                          top: 20.0,
+                        ),
                         child: Column(
                           children: [
                             Padding(
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 000.0),
-                                child: bottomBody),
+                                child: Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 20.0, vertical: 20.0),
+                                      child: bottomBody!,
+                                    ),
+                                    Footer(constraints),
+                                  ],
+                                )),
                           ],
                         ),
                       ).inGridArea('bottombody'),
-                      // Flexible(child: body)
                     ],
                   ),
           ),
