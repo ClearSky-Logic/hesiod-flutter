@@ -13,7 +13,7 @@ class CustomScaffold extends StatelessWidget {
   final String title;
   final Widget? body;
   // final List<Widget> rightBody;
-  final List<List<Widget>> rightBody;
+  final List<CustomWidgetLayout> rightBody;
   final Widget? bottomBody;
   final FloatingActionButton? floatingActionButton;
   final bool isStepper;
@@ -76,11 +76,8 @@ class CustomScaffold extends StatelessWidget {
                         Column(
                           children: [
                             for (var widgetList in rightBody) ...[
-                              for (var widget in widgetList) ...[widget]
+                              for (var widget in widgetList.widgets) ...[widget]
                             ]
-                            // for (var item in rightBody) ...[
-                            //   for (var i in item.widget) ...[i]
-                            // ]
                           ],
                         ),
                         if (bottomBody != null) ...[
@@ -108,18 +105,19 @@ class CustomScaffold extends StatelessWidget {
                             children: [
                               // rightBody.where((element){ element.isRowOnFullScreen}),
                               for (var widgetList in rightBody) ...[
-                                if (widgetList.length > 1) ...[
+                                if (widgetList.isRowOnFullScreen) ...[
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
                                         vertical: 8.0),
                                     child: Row(children: [
-                                      for (var widget in widgetList) ...[
-                                        Expanded(child: widget)
-                                      ]
+                                      for (var widget in widgetList
+                                          .widgets) ...[Expanded(child: widget)]
                                     ]),
                                   )
                                 ] else ...[
-                                  for (var widget in widgetList) ...[widget]
+                                  for (var widget in widgetList.widgets) ...[
+                                    widget
+                                  ]
                                 ]
                               ]
                               // for (var item in rightBody) ...[
@@ -151,7 +149,7 @@ class CustomScaffold extends StatelessWidget {
                           children: [
                             Padding(
                                 padding:
-                                    const EdgeInsets.symmetric(vertical: 200.0),
+                                    const EdgeInsets.symmetric(vertical: 000.0),
                                 child: bottomBody),
                           ],
                         ),
@@ -167,7 +165,7 @@ class CustomScaffold extends StatelessWidget {
 
   Widget _navigation(BuildContext context, BoxConstraints constraints) {
     return Container(
-        height: 500,
+        // height: 500,
         decoration: const BoxDecoration(
           color: Colors.white,
           // color: AppColours.primary,

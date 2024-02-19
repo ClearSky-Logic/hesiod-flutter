@@ -24,8 +24,6 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isPhone = MediaQuery.of(context).size.width < 800;
-    // viewModel.getProfileDetails();
     return ViewModelRoot(
         viewModel: viewModel,
         child: Observer(
@@ -33,19 +31,12 @@ class HomePage extends StatelessWidget {
               ? const Center(child: CustomProgressIndicator())
               : CustomScaffold(
                   rightBody: [
-                    [_welcomeMessage(context)],
-                    const [
+                    CustomWidgetLayout([_welcomeMessage(context)], false),
+                    CustomWidgetLayout(const [
                       LineChart(),
                       CircleChart(),
-                    ],
-                    const [LineChart()]
-                    // CustomWidgetLayout([LineChart()], false)
-                    // CustomWidgetLayout([_welcomeMessage(context)], false),
-                    // CustomWidgetLayout([
-                    //   LineChart(),
-                    //   CircleChart(),
-                    // ], true),
-                    // CustomWidgetLayout([LineChart()], false)
+                    ], true),
+                    // CustomWidgetLayout(const [LineChart()], false)
                   ],
                   bottomBody: _welcomeMessage(context),
                 ),
@@ -56,7 +47,6 @@ class HomePage extends StatelessWidget {
     return Container(
         decoration: const BoxDecoration(
           color: Colors.white,
-          // color: AppColours.primary,
           borderRadius: BorderRadius.all(
             Radius.circular(12.0),
           ),

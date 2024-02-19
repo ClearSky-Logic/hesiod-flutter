@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class CustomWidgetLayout {
-  final List<Widget> widget;
+  final List<Widget> widgets;
   final bool isRowOnFullScreen;
 
-  CustomWidgetLayout(this.widget, this.isRowOnFullScreen);
+  CustomWidgetLayout(this.widgets, this.isRowOnFullScreen);
 }
