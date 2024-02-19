@@ -24,7 +24,7 @@ class PasswordFormField extends StatefulWidget {
       this.keyName = '',
       this.keyboardType = TextInputType.text,
       this.padding = const EdgeInsets.all(8.0),
-      this.backgroundColor = AppColours.lightGrey,
+      this.backgroundColor = Colors.white,
       this.isFieldMandatory = false,
       this.autofillHints});
 

@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:go_router/go_router.dart';
-import 'package:hesiod/domain/constants/assetsconstants.dart';
-import 'package:hesiod/domain/constants/routes.dart';
 import 'package:hesiod/domain/enums/theme/text_state.dart';
 import 'package:hesiod/helpers/devicetype.dart';
 import 'package:hesiod/ui/shared/layout/topnavigation.dart';
@@ -30,24 +26,16 @@ class CustomScaffold extends StatelessWidget {
       final bool isPhone = DeviceType().isPhone(constraints);
       return Scaffold(
         backgroundColor: AppColours.surface,
-        appBar: AppBar(
-          backgroundColor: AppColours.darkTribeBlue,
-          elevation: 0.0,
-          title: AppText.title(title),
-          centerTitle: true,
-        ),
-        floatingActionButton: floatingActionButton,
-        body: Container(
-          // height: double.infinity,
-          decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [AppColours.darkTribeBlue, AppColours.lightGrey],
-                  stops: [0.2, 0.2])),
-
-          //pass right body and under body, see exalidraw
-          child: SingleChildScrollView(
+        body:
+            //pass right body and under body, see exalidraw
+            SingleChildScrollView(
+          child: Container(
+            decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [AppColours.darkTribeBlue, AppColours.lightGrey],
+                    stops: [0.2, 0.2])),
             child: isPhone
                 ? Padding(
                     padding: const EdgeInsets.all(20.0),
@@ -78,12 +66,10 @@ class CustomScaffold extends StatelessWidget {
                               )),
                         ),
                         body,
-                        _welcomeMessage(context, constraints),
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 200.0),
                           child: AppText.title("THIS IS BOTTOM BODY"),
                         ),
-                        _welcomeMessage(context, constraints),
                       ],
                     ),
                   )
@@ -93,7 +79,7 @@ class CustomScaffold extends StatelessWidget {
                 bottombody bottombody
                 ''',
                     columnSizes: [auto, 12.fr],
-                    rowSizes: [auto, auto],
+                    rowSizes: const [auto, auto],
                     children: [
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -114,7 +100,6 @@ class CustomScaffold extends StatelessWidget {
                             horizontal: 20.0, vertical: 20.0),
                         child: Column(
                           children: [
-                            _welcomeMessage(context, constraints),
                             Padding(
                               padding:
                                   const EdgeInsets.symmetric(vertical: 200.0),
@@ -134,45 +119,37 @@ class CustomScaffold extends StatelessWidget {
   }
 
   Widget _navigation(BuildContext context, BoxConstraints constraints) {
-    final bool isPhone = DeviceType().isPhone(constraints);
-    return isPhone
-        ? AppBar(
-            leading: GestureDetector(
-              child: Icon(Icons.arrow_back_ios_new_rounded),
-              onTap: () => context.pop(),
-            ),
-          )
-        : Container(
-            height: 500,
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              // color: AppColours.primary,
-              borderRadius: BorderRadius.all(
-                Radius.circular(12.0),
+    return Container(
+        height: 500,
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          // color: AppColours.primary,
+          borderRadius: BorderRadius.all(
+            Radius.circular(12.0),
+          ),
+        ),
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const FlutterLogo(),
+                  AppText.title("Brand Logo"),
+                ],
               ),
             ),
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const FlutterLogo(),
-                      AppText.title("Brand Logo"),
-                    ],
-                  ),
-                ),
-                navLink(Icons.bar_chart_rounded, "Investment Performance",
-                    selected: true),
-                navLink(Icons.signpost_rounded, "Letting Dashboard"),
-                navLink(Icons.message, "Messages"),
-                navLink(Icons.shopping_bag, "Asset Management Request"),
-                navLink(Icons.account_circle_rounded, "Investor Profile"),
-                navLink(Icons.logout_rounded, "Logout"),
-              ],
-            ));
+            navLink(Icons.bar_chart_rounded, "Investment Performance",
+                selected: true),
+            navLink(Icons.signpost_rounded, "Letting Dashboard"),
+            navLink(Icons.message, "Messages"),
+            navLink(Icons.shopping_bag, "Asset Management Request"),
+            navLink(Icons.account_circle_rounded, "Investor Profile"),
+            navLink(Icons.logout_rounded, "Logout"),
+          ],
+        ));
   }
 
   Widget navLink(IconData icon, String title, {bool selected = false}) {

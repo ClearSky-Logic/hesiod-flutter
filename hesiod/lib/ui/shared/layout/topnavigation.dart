@@ -38,7 +38,6 @@ class _TopNavigationState extends State<TopNavigation> {
       itemBuilder: (BuildContext context) => <PopupMenuEntry<SampleItem>>[
         PopupMenuItem<SampleItem>(
           value: SampleItem.itemOne,
-          onTap: () => context.goNamed(Routes.login.name),
           child: navLink(Icons.bar_chart_rounded, "Investment Performance",
               selected: true),
         ),
@@ -49,6 +48,15 @@ class _TopNavigationState extends State<TopNavigation> {
         PopupMenuItem<SampleItem>(
           value: SampleItem.itemThree,
           child: navLink(Icons.shopping_bag, "Asset Management Request"),
+        ),
+        PopupMenuItem<SampleItem>(
+          value: SampleItem.itemThree,
+          child: navLink(Icons.account_circle_rounded, "Investor Profile"),
+        ),
+        PopupMenuItem<SampleItem>(
+          value: SampleItem.itemThree,
+          onTap: () => context.goNamed(Routes.login.name),
+          child: navLink(Icons.logout_rounded, "Logout"),
         ),
       ],
     );
