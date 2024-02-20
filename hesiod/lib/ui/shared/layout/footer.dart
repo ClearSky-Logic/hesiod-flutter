@@ -10,8 +10,10 @@ class Footer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         width: constraints.maxWidth,
-        height: 300,
-        color: AppColours.darkTribeBlue,
+        height: constraints.maxHeight / 4,
+        decoration: BoxDecoration(
+            color: AppColours.darkTribeBlue,
+            border: Border.all(color: Colors.red)),
         child: AppText.title("footer"));
   }
 }

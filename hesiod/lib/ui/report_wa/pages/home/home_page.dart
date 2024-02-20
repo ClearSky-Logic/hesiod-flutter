@@ -31,15 +31,25 @@ class HomePage extends StatelessWidget {
               ? const Center(child: CustomProgressIndicator())
               : CustomScaffold(
                   rightBody: [
-                    CustomWidgetLayout([_welcomeMessage(context)], false),
-                    CustomWidgetLayout(const [
-                      LineChart(),
-                      CircleChart(),
-                    ], true),
-                    // CustomWidgetLayout(const [LineChart()], false)
-                  ],
-                  bottomBody: _welcomeMessage(context),
-                ),
+                      CustomWidgetLayout([_welcomeMessage(context)], false),
+                      CustomWidgetLayout(const [
+                        LineChart(),
+                        CircleChart(),
+                      ], true),
+                      // CustomWidgetLayout(const [LineChart()], false)
+                    ],
+                  bottomBody: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 12.0),
+                        child: _welcomeMessage(context),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 12.0),
+                        child: _welcomeMessage(context),
+                      ),
+                    ],
+                  )),
         ));
   }
 
