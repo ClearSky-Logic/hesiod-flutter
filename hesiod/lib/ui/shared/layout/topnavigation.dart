@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hesiod/domain/constants/routes.dart';
 import 'package:hesiod/domain/enums/theme/text_state.dart';
+import 'package:hesiod/helpers/devicetype.dart';
 import 'package:hesiod/ui/shared/theme/colour_palette.dart';
 import 'package:hesiod/ui/shared/theme/text.dart';
 
 class TopNavigation extends StatefulWidget {
-  const TopNavigation({super.key});
+  final BoxConstraints constraints;
+  const TopNavigation(this.constraints, {super.key});
 
   @override
   State<TopNavigation> createState() => _TopNavigationState();
@@ -18,6 +20,35 @@ class _TopNavigationState extends State<TopNavigation> {
   SampleItem? selectedItem;
   @override
   Widget build(BuildContext context) {
+    final bool isPhone = DeviceType().isPhone(widget.constraints);
+
+    return !isPhone
+        ? _navigation(context)
+        : Padding(
+            padding: const EdgeInsets.only(bottom: 32.0),
+            child: Container(
+                height: 60,
+                // padding: const EdgeInsets.all(14.0),
+                decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(14.0))),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.only(left: 12.0),
+                      child: FlutterLogo(),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 12.0),
+                      child: topNav(context),
+                    ),
+                  ],
+                )),
+          );
+  }
+
+  PopupMenuButton<SampleItem> topNav(BuildContext context) {
     return PopupMenuButton<SampleItem>(
       color: Colors.white,
       shape: const RoundedRectangleBorder(
@@ -85,5 +116,39 @@ class _TopNavigationState extends State<TopNavigation> {
         ),
       ),
     );
+  }
+
+  Widget _navigation(BuildContext context) {
+    return Container(
+        // height: 500,
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          // color: AppColours.primary,
+          borderRadius: BorderRadius.all(
+            Radius.circular(12.0),
+          ),
+        ),
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const FlutterLogo(),
+                  AppText.title("Brand Logo"),
+                ],
+              ),
+            ),
+            navLink(Icons.bar_chart_rounded, "Investment Performance",
+                selected: true),
+            navLink(Icons.signpost_rounded, "Letting Dashboard"),
+            navLink(Icons.message, "Messages"),
+            navLink(Icons.shopping_bag, "Asset Management Request"),
+            navLink(Icons.account_circle_rounded, "Investor Profile"),
+            navLink(Icons.logout_rounded, "Logout"),
+          ],
+        ));
   }
 }

@@ -12,7 +12,7 @@ class AppColours {
   static const Color secondary = Color(0xffFAB921);
   static const Color secondaryVariant = Color(0xffF4770E);
   static const Color background = Color(0xffF9F9F9);
-  // static const Color surface = Color(0xffFFFFFF);
+  static const Color cardBackground = Color(0xffFFFFFF);
 
   static const Color surface =
       Color(0xffe5e7f0); // static const Color lightGrey = Color(0xffe5e7f0);

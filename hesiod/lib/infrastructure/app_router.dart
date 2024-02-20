@@ -27,9 +27,8 @@ final GoRouter router =
     redirect: (context, state) async => '/login',
     path: '/',
     pageBuilder: (context, state) => const MaterialPage<void>(
-        child: CustomScaffold(
-      body: CustomProgressIndicator(),
-    )),
+      child: CustomProgressIndicator(),
+    ),
   ),
   GoRoute(
     name: Routes.login.name,
@@ -50,9 +49,7 @@ final GoRouter router =
   ),
   ShellRoute(
       builder: (context, state, child) {
-        return CustomScaffold(
-          body: child,
-        );
+        return child;
       },
       routes: [
         GoRoute(
